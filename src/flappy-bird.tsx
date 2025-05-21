@@ -16,6 +16,16 @@ export default function FlappyBird() {
   const [score, setScore] = useState(0);
   const [highScore, setHighScore] = useState(0);
   const [pipes, setPipes] = useState<Pipe[]>([]);
+
+  useEffect(() => {
+    const storedHighScore = localStorage.getItem('flappyBirdHighScore');
+    if (storedHighScore) {
+      const parsedHighScore = parseInt(storedHighScore, 10);
+      if (!isNaN(parsedHighScore)) {
+        setHighScore(parsedHighScore);
+      }
+    }
+  }, []);
   
   const GRAVITY = 0.4;
   const JUMP_FORCE = -7;
@@ -42,6 +52,7 @@ export default function FlappyBird() {
     
     if (score > highScore) {
       setHighScore(score);
+      localStorage.setItem('flappyBirdHighScore', score.toString());
     }
   };
   
